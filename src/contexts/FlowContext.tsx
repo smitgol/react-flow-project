@@ -1,5 +1,5 @@
 
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { FlowType } from "@/interfaces/FlowTypes";
 import { FlowContextType } from "@/interfaces/FlowContext";
 
@@ -24,6 +24,13 @@ export const FlowContextProvider:React.FC<{ children: ReactNode }> = ({children}
     const addOrUpdateNodeValues = (id:string, value:string) => {
         setNodeValues({...nodeValues, [id]: {value}});
     }
+
+    useEffect(() => {
+        if (window !== undefined) {
+            const savedNodeValues = JSON.parse(localStorage.getItem('nodeValues') ?? '{}');
+            setNodeValues(savedNodeValues);
+        }
+    }, [])
 
 
 

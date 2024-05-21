@@ -30,6 +30,7 @@ const NodeCanva = () => {
   const reactFlowWrapper = useRef(null);
   const {nodeValues, addOrUpdateNodeValues} = useFlowContext();
   const [currentId, setCurrentId] = useState<number>(1);
+  const [isNodeAddByUser, setIsNodeAddedByUser] = useState<boolean>(false);
 
   //using this to get saved nodes and edge when window object is available
   useEffect(() => {
@@ -45,11 +46,6 @@ const NodeCanva = () => {
     }
     
   },[]);
-
-  
-
-
-
 
 
   const onConnect = useCallback(
@@ -83,7 +79,7 @@ const NodeCanva = () => {
         position,
         data: { type, id: currentId },
       };
-  
+      setIsNodeAddedByUser(true);
       setNodes((nds) => nds.concat(newNode));      
       setCurrentId((preVal) => preVal + 1);      
     },
@@ -92,7 +88,7 @@ const NodeCanva = () => {
 
   //only call this func when node is added
   useEffect(() => {
-    if (nodes.length > 0) {
+    if (nodes.length > 0 && isNodeAddByUser) {
       const latestNode = nodes[nodes.length - 1];
       addOrUpdateNodeValues(latestNode.id, `text message ${latestNode.id}`);
     }
@@ -119,6 +115,7 @@ const NodeCanva = () => {
     if (window !== undefined) {
       localStorage.setItem('nodes', JSON.stringify(nodes));
       localStorage.setItem('edges', JSON.stringify(edges));
+      localStorage.setItem('nodeValues', JSON.stringify(nodeValues));
     }
   }
       
