@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 const SideBar = () => {
   const{editNodeMode, setEditNodeMode, editNodeId, nodeValues, addOrUpdateNodeValues} = useFlowContext();
 
-  const draggableComs = [<TextComponent />]
+  const draggableComs = [<TextComponent key={1}/>]
 
   const onDragStart = (event: React.DragEvent<HTMLDivElement>, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
